@@ -1,13 +1,15 @@
+#pragma once
+
 #include <iostream>
 #include <fstream>
-#include <string>
-#include <tokens.h>
+#include "types.h"
+
 
 
 class Lexer {
     private:
         int pos;
-        Token token;
+        Token* token;
     public:
         Lexer();
         Lexer(int pos);

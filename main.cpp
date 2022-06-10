@@ -7,30 +7,58 @@ using namespace std;
 
 list<string> load_program(string file_path) {
     ifstream myfile (file_path);
+    list<string> program;
     if (!myfile) {
         cout << "File does not exist\n";
-        return;
+        return program;
     } else {
-        char output;
-        string word;
-        list<string> program;
+        char output, started_value;
+        string token;
+        //bool to determine if reading inside quote or brackets
+        bool started = false;
+        cout << started << endl;
         while(myfile.good()) {
             output = myfile.get();
-            if (output == '"') {
-                //Not implemented
-            } else {
-                if (output == ' ' || output == ';' || output == '\n') {
-                    if (word == "") {}
-                    else{
-                        program.push_back(word);
-                        word = "";
-                    }
-                }else if(output == '}') {
-                    word += output;
-                    program.push_back(word);
-                    word = "";
+            cout << "Started value: " << started << endl;
+            cout << "Output value: " << output << endl;
+            if (started = false) {
+                if (output == '"' || output == '{') {
+                    started = true;
+                    started_value = output;
+                    program.push_back(token);
+                    token = output;
+                    program.push_back(token);
                 } else {
-                    word += output;
+                    if (output == ' ' || output == ';' || output == '\n') {
+                        if (token == "") {}
+                        else{
+                            program.push_back(token);
+                            token = "";
+                        }
+                    }else if(output == '}') {
+                        token += output;
+                        program.push_back(token);
+                        token = "";
+                    } else {
+                        token += output;
+                    }
+                }
+            } else if (started = true){
+                cout << "Started\n";
+                if (started_value == '"' && output == '"') {
+                    cout << "Started\n";
+                    program.push_back(token);
+                    token = output;
+                    program.push_back(token);
+                    started = false;
+                    started_value = ' ';
+                } else {
+                    if (started_value == '"') {
+                        token += output;
+                    }
+                    else {
+                        cout << "Something went wrong with string stuff\n";
+                    }
                 }
             }
         }
@@ -39,26 +67,12 @@ list<string> load_program(string file_path) {
 }
 
 int main() {
-    ifstream myfile ("first_program.ttdl");
+    string myfile = "first_program.ttdl";
     char output;
-    string word;
+    string token;
     list<string> program;
-    while(myfile.good()) {
-        output = myfile.get();
-        if (output == ' ' || output == ';' || output == '\n') {
-            if (word == "") {}
-            else{
-                program.push_back(word);
-                word = "";
-            }
-        }else if(output == '}' || output == '"') {
-            word += output;
-            program.push_back(word);
-            word = "";
-        } else {
-            word += output;
-        }
-    }
+    program = load_program(myfile);
+    cout << program.size() << endl;
     list<string>::iterator it;
     for (it = program.begin(); it != program.end(); ++it) {
         if (*it == "") {}
