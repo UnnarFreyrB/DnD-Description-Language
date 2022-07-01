@@ -1,3 +1,7 @@
-Introduction {
-    start: "Hello world";
-}
+$Introduction
+Text start: "Hello world";
+Player player1;
+player1.name = "jón";
+
+$Village
+Text description = "bla bla bla";

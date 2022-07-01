@@ -30,4 +30,5 @@ class Operant: public Token {
         Operant(std::string type);
         std::string get_op_type();
         ~Operant();
+        
 };
